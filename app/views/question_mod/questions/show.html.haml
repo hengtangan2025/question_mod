@@ -30,18 +30,18 @@
     %ul.answers
       - @question.answers.each do |answer|
         %li.answer
-          .vote{:data => {:"answer-id" => answer.id.to_s}}
-            - if answer.creator != current_user
-              %a.vote-up.glyphicon.glyphicon-menu-up{:href => "javascript:;", :class => answer.is_vote_up_of(current_user) ? "pressed" : ""}
-            - else
-              .vote-up.glyphicon.glyphicon-menu-up
+          / .vote{:data => {:"answer-id" => answer.id.to_s}}
+          /   - if answer.creator != current_user
+          /     %a.vote-up.glyphicon.glyphicon-menu-up{:href => "javascript:;", :class => answer.is_vote_up_of(current_user) ? "pressed" : ""}
+          /   - else
+          /     .vote-up.glyphicon.glyphicon-menu-up
 
-            .vote-sum= answer.vote_sum
+          /   .vote-sum= answer.vote_sum
 
-            - if answer.creator != current_user
-              %a.vote-down.glyphicon.glyphicon-menu-down{:href => "javascript:;", :class => answer.is_vote_down_of(current_user) ? "pressed" : ""}
-            - else
-              .vote-down.glyphicon.glyphicon-menu-down
+          /   - if answer.creator != current_user
+          /     %a.vote-down.glyphicon.glyphicon-menu-down{:href => "javascript:;", :class => answer.is_vote_down_of(current_user) ? "pressed" : ""}
+          /   - else
+          /     .vote-down.glyphicon.glyphicon-menu-down
 
           .desc
             .create-info
@@ -49,6 +49,7 @@
               .created-time= human_time_show answer.created_at
 
             .content= answer.content
+
             .update-form.hidden{:data => {:"answer-id" => answer.id.to_s}}
               %textarea= answer.content
               %a.update-answer.btn.btn-default{:href => "javascript:;"} 提交
@@ -58,7 +59,22 @@
               - if answer.creator == current_user
                 %a.edit{:href => "javascript:;"} 修改
               = render :partial => "answer_comments", :locals => {:answer => answer}
-
+            
+              .answer-vote{data: {rel: "answer-vote", id: answer.id.to_s}}
+                - if answer.vote_state_of(current_user) == nil
+                  .unvoted
+                    %button.btn.btn-info 有帮助
+                    %button.btn.btn-default.hidden 有帮助
+                    (
+                    .count= answer.vote_sum
+                    )
+                - if answer.vote_state_of(current_user) == "up"
+                  .voted
+                    %button.btn.btn-default 有帮助
+                    %button.btn.btn-info.hidden 有帮助
+                    (
+                    .count= answer.vote_sum
+                    )
 
       - if @question.creator != current_user && @question.answers.where(:creator_id => current_user.id).count == 0
         = simple_form_for [@question,QuestionMod::Answer.new] do |f|
