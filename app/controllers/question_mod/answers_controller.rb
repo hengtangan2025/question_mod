@@ -23,7 +23,7 @@ module QuestionMod
     def update
       @answer = @question.answers.find(params[:id])
       @answer.update(answer_params)
-       @answer.reload
+      @answer.reload
       render :json => {
         :state    => @answer.vote_state_of(current_user),
         :vote_sum => @answer.vote_sum
@@ -35,6 +35,7 @@ module QuestionMod
       @answer.vote_up_by(current_user)
       @answer.reload
       render :json => {
+        :up_vote_count => @answer.votes.where(:kind => "up").count,
         :state    => @answer.vote_state_of(current_user),
         :vote_sum => @answer.vote_sum
       }
