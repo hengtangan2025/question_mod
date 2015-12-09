@@ -3,9 +3,8 @@ require 'question_mod/engine'
 require 'question_mod/rails_routes'
 
 module QuestionMod
-  mattr_accessor :user_class
-  
   class << self
+    mattr_accessor :user_class
     def question_mod_config
       self.instance_variable_get(:@question_mod_config) || {}
     end
