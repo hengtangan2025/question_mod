@@ -16,4 +16,8 @@ QuestionMod::Engine.routes.draw do
       resources :answer_comments, :path => :comments
     end
   end
+
+  namespace :api do
+    get "/answers/:id/vote" => "answers#vote"
+  end
 end
