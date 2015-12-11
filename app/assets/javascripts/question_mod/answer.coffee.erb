@@ -1,7 +1,7 @@
 class Answer
   constructor: (@$answer)->
     @question_id = jQuery(".page-question-show .question .comment-content .form").data("question-id")
-    
+    @path = "<%= QuestionMod.get_mount_prefix %>"
     @bind_event()
 
   backgroundColor_move: ->
@@ -40,7 +40,7 @@ class Answer
 
       jQuery.ajax
         method: "PATCH"
-        url: "/questions/#{@question_id}/answers/#{@answer_id}"
+        url: "#{@path}/questions/#{@question_id}/answers/#{@answer_id}"
         data:
           "answer[content]": content
         type: "html"

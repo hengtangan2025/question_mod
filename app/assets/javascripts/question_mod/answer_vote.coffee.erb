@@ -1,6 +1,7 @@
 class AnswerVote
   constructor: (@$elm)->
     @question_id = jQuery(".page-question-show .question .vote").data "question-id"
+    @path = "<%= QuestionMod.get_mount_prefix %>"
     @bind_event()
 
   bind_event: ->
@@ -17,7 +18,7 @@ class AnswerVote
     $vote_sum = jQuery(event.target).closest(".vote").find ".vote-sum"
     jQuery.ajax
       method: "PUT"
-      url: "/questions/#{@question_id}/answers/#{@answer_id}/"+ vote_type 
+      url:  "#{@path}/questions/#{@question_id}/answers/#{@answer_id}/"+ vote_type 
       type: "json"
       success: (info)=>
         @change_by_info(info,$up_btn,$down_btn,$vote_sum)

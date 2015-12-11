@@ -1,6 +1,7 @@
 class QuestionComment
   constructor: (@$show_comment, @$comment_content)->
     @question_id = @$comment_content.find(".form").data("question-id")
+    @path = "<%= QuestionMod.get_mount_prefix %>"
     @bind_event()
 
   backgroundColor_move: (textarea,coler1,color2,speed)->
@@ -27,7 +28,7 @@ class QuestionComment
 
       jQuery.ajax
         method: "POST"
-        url: "/questions/#{@question_id}/comments"
+        url: "#{@path}/questions/#{@question_id}/comments"
         data:
           "comment[content]": content
         type: "html"
@@ -52,7 +53,7 @@ class QuestionComment
 
       jQuery.ajax
         method: "POST"
-        url: "/questions/#{@question_id}/comments"
+        url: "#{@path}/questions/#{@question_id}/comments"
         data:
           "comment[content]": content,
           "comment[reply_comment_id]": reply_comment_id
@@ -67,7 +68,7 @@ class QuestionComment
       $comment_content = jQuery(event.target).closest(".comment")
       jQuery.ajax
         method: "DELETE"
-        url: "/questions/#{@question_id}/comments/#{@comment_id}"
+        url: "#{@path}/questions/#{@question_id}/comments/#{@comment_id}"
         success: =>
           $comment_content.remove()
 

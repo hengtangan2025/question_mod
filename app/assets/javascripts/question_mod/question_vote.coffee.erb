@@ -4,6 +4,7 @@ class QuestionVote
     @up_btn   = @$ele.find "a.vote-up"
     @down_btn = @$ele.find "a.vote-down"
     @$vote_sum = @$ele.find ".vote-sum"
+    @path = "<%= QuestionMod.get_mount_prefix %>"
     @bind_event()
 
   bind_event: ->
@@ -16,7 +17,7 @@ class QuestionVote
   to_vote: (vote_type)->
     jQuery.ajax
       method: "PUT"
-      url: "/questions/#{@question_id}/" + vote_type
+      url: "#{@path}/questions/#{@question_id}/" + vote_type
       success: (info)=>
         @change_by_info info
 
